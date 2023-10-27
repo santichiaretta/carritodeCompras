@@ -1,70 +1,77 @@
-const productos = [
-    { nombre: "wayfarer", precio: 73000 },
-    { nombre: "aviator", precio: 77000 },
-    { nombre: "ferrari", precio: 70000 },
-    { nombre: "clubmaster", precio: 73000 },
-    { nombre: "round", precio: 77000 },
-    { nombre: "erika", precio: 75000 },
-    { nombre: "evolve", precio: 70000 },
-]
+// Al agregar productos desde el botón "comprar" los va guardando en el almacenamiento local y, a su vez, los muestra en el carrito de compras.
 
-let carrito = []
-let eleccion = prompt("Hola, bienvenido/a. Desea comprar algún producto?(si/no)")
+const shopContent = document.getElementById("shopContent");
+const verCarrito = document.getElementById("verCarrito");
+const modalContainer = document.getElementById("modalContainer");
 
-while (eleccion != "si" && eleccion != "no") {
-    alert("Por favor, escriba si o no.")
-    eleccion = prompt("Desea comprar algo?(si/no)")
-}
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-if (eleccion == "si" || eleccion == "sI" || eleccion == "SI" || eleccion == "Si") {
-    alert("Estos son nuestros productos:")
-    let todoslosProductos = productos.map((producto) => " " + producto.nombre + " $" + producto.precio)
-    alert(todoslosProductos.join(" | "))
-} else if (eleccion == "no" || eleccion == "nO" || eleccion == "NO" || eleccion == "No") {
-    alert("Hasta otra vez será. Gracias!")
-}
+const saveLocal = () => {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+};
 
-while (eleccion == "si" || eleccion == "sI" || eleccion == "SI" || eleccion == "Si") {
-    let producto = prompt("Agrega un producto a tu carrito:")
-    let precio = 0
-    if (producto == "wayfarer" || producto == "aviator" || producto == "ferrari" || producto == "clubmaster" || producto == "round" || producto == "erika" || producto == "evolve") {
-        switch (producto) {
-            case "wayfarer":
-                precio = 73000;
-                break;
-            case "aviator":
-                precio = 77000;
-                break;
-            case "ferrari":
-                precio = 70000;
-                break;
-            case "clubmaster":
-                precio = 73000;
-                break;
-            case "round":
-                precio = 77000;
-                break;
-            case "erika":
-                precio = 75000;
-                break;
-            case "evolve":
-                precio = 70000;
-                break;
-            default:
-                break;
-        }
-        let unidades = parseInt(prompt("Cuántas unidades desea agregar?"))
-        carrito.push({ producto, unidades, precio })
-    } else {
-        alert(producto.toUpperCase() + " no coincide con ninguno de nuestros modelos")
-    }
+products.forEach((product) => {
+    let content = document.createElement("div");
+    content.className = "card"
+    content.innerHTML = `
+    <img src= "${product.img}">
+    <h3>${product.nombre}</h3>
+    <p class="price">${product.precio} $</p>
+    `;
 
-    eleccion = prompt("Desea seguir comprando?(si/no)")
-    if (eleccion == "no" || eleccion == "nO" || eleccion == "NO" || eleccion == "No"){
-        alert("Gracias por su compra, hasta pronto!")
-    }
-}
+    shopContent.append(content);
 
-const total = carrito.reduce((acc, el) => acc + el.precio * el.unidades, 0)
-console.log(carrito)
-console.log(`El total a pagar es: ${total}`)
+    let comprar = document.createElement("button");
+    comprar.innerText = "Comprar";
+    comprar.className = "comprar"
+
+    content.append(comprar);
+
+    comprar.addEventListener("click", () => {
+        carrito.push({
+            id: product.id,
+            img: product.img,
+            nombre: product.nombre,
+            precio: product.precio
+        });
+        console.log(carrito);
+        saveLocal();
+    });
+});
+
+verCarrito.addEventListener("click", () => {
+    modalContainer.innerHTML = "";
+    modalContainer.style.display = "flex";
+    const modalHeader = document.createElement("div");
+    modalHeader.className = "modal-header"
+    modalHeader.innerHTML = `
+    <h1 class="modal-header-title">Carrito</h1>
+    `;
+    modalContainer.append(modalHeader);
+
+    const modalButton = document.createElement("h1");
+    modalButton.innerText = "x";
+    modalButton.className = "modal-header-button";
+    modalHeader.append(modalButton);
+
+    modalButton.addEventListener("click", ()=>{
+        modalContainer.style.display = "none";
+    })
+
+    carrito.forEach((product) => {
+        let carritoContent = document.createElement("div");
+        carritoContent.className = "modal-content"
+        carritoContent.innerHTML = `
+        <img src= "${product.img}">
+        <h3>${product.nombre}</h3>
+        <p>${product.precio} $</p>
+        `;
+        modalContainer.append(carritoContent);
+    });
+
+    const total = carrito.reduce((acc, el) => acc + el.precio, 0);
+    const totalBuying = document.createElement("div");
+    totalBuying.className = "total-content"
+    totalBuying.innerHTML = `Total a pagar: ${total} $`;
+    modalContainer.append(totalBuying);
+});
