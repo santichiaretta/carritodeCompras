@@ -22,54 +22,50 @@ const cartNotification = () => {
         cartContent.className = "modal-content"
         cartContent.innerHTML = `
         <img src= "${product.img}">
-        <h3>${product.nombre}</h3>
-        <p>${product.precio} $</p>
+        <h3>${product.name}</h3>
+        <p>${product.price} US$</p>
         <span class="subtract"> - </span>
-        <p>Cantidad: ${product.cantidad}</p>
+        <p>Cantidad: ${product.amount}</p>
         <span class="add"> + </span>
-        <p>Total: ${product.cantidad * product.precio} $</p>
+        <p>Total: ${product.amount * product.price} US$</p>
+        <span class="delete-product"> ❌ </span>
         `;
         modalContainer.append(cartContent);
 
         let subtract = cartContent.querySelector(".subtract");
-
         subtract.addEventListener("click", () => {
-            if (product.cantidad !== 1) {
-                product.cantidad--;
+            if (product.amount !== 1) {
+                product.amount--;
             }
             saveLocal();
             cartNotification();
         })
 
         let add = cartContent.querySelector(".add");
-
         add.addEventListener("click", () => {
-            product.cantidad++;
+            product.amount++;
             saveLocal();
             cartNotification();
         })
 
-        let deleteIt = document.createElement("span");
-        deleteIt.innerText = "❌";
-        deleteIt.className = "delete-product"
-        cartContent.append(deleteIt);
-
-        deleteIt.addEventListener("click", deleteProduct);
+        let deleteIt = cartContent.querySelector(".delete-product");
+        deleteIt.addEventListener("click", () => {
+            deleteProduct(product.id);
+        });
     });
 
-
-    const total = cart.reduce((acc, el) => acc + el.precio * el.cantidad, 0);
+    const total = cart.reduce((acc, el) => acc + el.price * el.amount, 0);
 
     const totalBuying = document.createElement("div");
     totalBuying.className = "total-content"
-    totalBuying.innerHTML = `Total a pagar: ${total} $`;
+    totalBuying.innerHTML = `Total a pagar: ${total} US$`;
     modalContainer.append(totalBuying);
 };
 
 seeCart.addEventListener("click", cartNotification);
 
-const deleteProduct = () => {
-    const foundId = cart.find((element) => element.id);
+const deleteProduct = (id) => {
+    const foundId = cart.find((element) => element.id === id);
 
     cart = cart.filter((cartId) => {
         return cartId !== foundId;

@@ -70,13 +70,14 @@ body {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;
     margin: auto;
+    padding-bottom: 30px;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.card > img {
+.card>img {
     width: 98%;
-    height: 250px;
+    height: 200px;
 }
 
 .price {
@@ -136,7 +137,7 @@ body {
     cursor: pointer;
 }
 
-.modal-container > .modal-content {
+.modal-container>.modal-content {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -145,12 +146,12 @@ body {
     margin: 10px;
 }
 
-.modal-container > div > img {
+.modal-container>div>img {
     height: 70px;
     width: 120px;
 }
 
-.total-content { 
+.total-content {
     font-size: 25px;
     padding: 20px;
     text-align: center;

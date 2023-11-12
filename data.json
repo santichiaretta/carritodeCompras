@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "name": "RB 4302",
+        "price": 73,
+        "img": "./img/sol-RB4302.png",
+        "amount": 1
+    },
+    {
+        "id": 2,
+        "name": "RB 4329",
+        "price": 75,
+        "img": "./img/sol-RB4329.png",
+        "amount": 1
+    },
+    {
+        "id": 3,
+        "name": "RB 4363",
+        "price": 77,
+        "img": "./img/sol-RB4363.png",
+        "amount": 1
+    },
+    {
+        "id": 4,
+        "name": "RB 4365",
+        "price": 79,
+        "img": "./img/sol-RB4365.png",
+        "amount": 1
+    },
+    {
+        "id": 5,
+        "name": "RB 4367",
+        "price": 81,
+        "img": "./img/sol-RB4367.png",
+        "amount": 1
+    },
+    {
+        "id": 6,
+        "name": "RB 4369",
+        "price": 83,
+        "img": "./img/sol-RB4369.png",
+        "amount": 1
+    }
+]
